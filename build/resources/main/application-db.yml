@@ -9,7 +9,7 @@
 #   개발용 로컬 데이터베이스
 spring:
   datasource:
-    url: jdbc:mariadb://3.36.120.24:3306/shoppingdev
+    url: jdbc:mariadb://13.125.219.49:3306/shopping
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: qUS4fqFp3N9K

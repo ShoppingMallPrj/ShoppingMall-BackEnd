@@ -24,7 +24,7 @@ public class ItemUploadDto {
 
     @Schema(description = "상품 카테고리")
     @NotBlank
-    private String category;
+    private String itemCategory;
 
     @Schema(description = "성별 카테고리")
     @NotBlank
