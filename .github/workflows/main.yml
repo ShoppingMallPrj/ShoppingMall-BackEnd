@@ -7,7 +7,7 @@ on:
 env:
   DOCKER_IMAGE: ghcr.io/shoppingmallprj/ShoppingMall-BackEnd
   VERSION: ${{ github.sha }}
-  NAME: go_cicd
+  NAME: shoppingmall
 
 jobs:
   build:
