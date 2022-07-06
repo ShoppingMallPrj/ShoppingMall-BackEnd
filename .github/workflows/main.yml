@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 env:
-  DOCKER_IMAGE: ghcr.io/shoppingmallprj/ShoppingMall-BackEnd
+  DOCKER_IMAGE: ghcr.io/shoppingmallprj/shoppingmall-backend
   VERSION: ${{ github.sha }}
   NAME: shoppingmall
 
@@ -54,4 +54,4 @@ jobs:
       - name: Docker run
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:latest
-          docker run -d -p 8080:8080 --name go_cicd --restart always ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 8080:8080 --name shoppingmall --restart always ${{ env.DOCKER_IMAGE }}:latest
