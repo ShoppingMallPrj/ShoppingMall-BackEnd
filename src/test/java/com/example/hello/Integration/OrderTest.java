@@ -109,7 +109,7 @@ public class OrderTest {
         //테스트용 아이템 생성
         item = new ItemEntity();
         item.setItemPrice(itemPrice);
-        item.setItemCategory(itemCategory);
+//        item.setItemCategory(itemCategory);
         item.setItemName(itemName);
         item.setItemDescription(itemDes);
         item.setItemProfile(itemProfile);
@@ -139,9 +139,9 @@ public class OrderTest {
         order.setOrderStatus(orderStatus);
         order.setTotal(orderTotal);
         order.setUser(user);
-        order.setOrderAddr1(userAddr1);
-        order.setOrderAddr2(userAddr2);
-        order.setOrderAddr3(userAddr3);
+//        order.setOrderAddr1(userAddr1);
+//        order.setOrderAddr2(userAddr2);
+//        order.setOrderAddr3(userAddr3);
 
         order = orderRepository.save(order);
 
