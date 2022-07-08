@@ -17,7 +17,7 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-        -names: see files
+      - name: see files
         run: ls -al
 
       - name: Setup Secret Keys (email, db, S3)
@@ -48,6 +48,9 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew clean build
+
+      - name: see files
+        run: ls -al
 
       - name: Set up docker buildx
         id: buildx
