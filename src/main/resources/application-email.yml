@@ -3,7 +3,7 @@ spring:
     host: smtp.naver.com
     port: 465
     protocol: smtp
-    username: "sasa5680"
+    username: "sasa5680@naver.com"
     password: "wjdtjdruf69"
     properties:
       mail.smtp.auth: true
