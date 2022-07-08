@@ -22,6 +22,7 @@ jobs:
         with:
           cmd: yq -i '.spring.mail.password = "${{secrets.GMAIL_SMTP_PASSWORD}}"' 'src/main/resources/application-email.yml'
 
+
       - name: print keys
         run: |
           cat src/main/resources/application-email.yml
