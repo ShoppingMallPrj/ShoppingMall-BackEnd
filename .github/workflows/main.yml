@@ -17,9 +17,12 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-      - name: Setup Secrete Keys (email, db, S3)
+      - name: Setup Secret Keys (email, db, S3)
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i '.spring.mail.password = "${{secrets.GMAIL_SMTP_PASSWORD}}"' 'src/main/resources/application-email.yml'
         run: |
-          cat src/main/resources/application.yml
+          cat src/main/resources/application-email.yml
 
       - name: Set up docker buildx
         id: buildx
