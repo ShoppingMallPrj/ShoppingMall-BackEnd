@@ -17,11 +17,6 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
       - name: Setup Secret Keys (email, db, S3)
         uses: mikefarah/yq@master
         with:
@@ -57,6 +52,9 @@ jobs:
       - name: Set up docker buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
+
+      - name: see files
+        run: ls ./tmp/.buildx-cache
 
       - name: Cache docker layers
         uses: actions/cache@v2
