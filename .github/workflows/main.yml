@@ -23,12 +23,16 @@ jobs:
           cmd: |
             yq -i '.spring.mail.password = "${{secrets.GMAIL_SMTP_PASSWORD}}"' 'src/main/resources/application-email.yml'
             yq -i '.spring.datasource.username = "${{secrets.DB_USER_NAME}}"' 'src/main/resources/application-db.yml'
+            yq -i '.spring.datasource.password = "${{secrets.DB_PASSWORD}}"' 'src/main/resources/application-db.yml'
+            yq -i '.cloud.aws.credentials.accessKey = "${{secrets.S3_ACCESSKEY}}"' 'src/main/resources/application-aws.yml'
+            yq -i '.cloud.aws.credentials.secretKey = "${{secrets.S3_SECRET_KEY}}"' 'src/main/resources/application-aws.yml'
+            yq -i '.kakao.client.id = "${{secrets.KAKAO_KEY}}"' 'src/main/resources/application-social.yml'
 
 
       - name: print keys
         run: |
-          cat src/main/resources/application-email.yml
-          cat src/main/resources/application-db.yml
+          cat src/main/resources/application-aws.yml
+          cat src/main/resources/application-social.yml
 
       - name: Set up docker buildx
         id: buildx
