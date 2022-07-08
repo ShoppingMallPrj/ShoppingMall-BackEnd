@@ -27,6 +27,7 @@ jobs:
 
       - name: print keys
         run: |
+          cat src/main/resources/application-email.yml
           cat src/main/resources/application-db.yml
 
       - name: Set up docker buildx
