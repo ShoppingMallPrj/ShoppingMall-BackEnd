@@ -2,6 +2,7 @@ package com.example.hello.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -14,10 +15,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+
 
 @RequiredArgsConstructor
 @Service
@@ -39,20 +37,16 @@ public class MailService {
     @Value("${spring.mail.port}")
     private int port;
 
-    public JavaMailSender getJavaMailSender() {
-
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(host);
-        mailSender.setPort(port);
-        mailSender.setUsername(username);
-        mailSender.setPassword(pass);
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-        return mailSender;
-    }
+//    public JavaMailSender getJavaMailSender() {
+//
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//        mailSender.setHost(host);
+//        mailSender.setPort(port);
+//        mailSender.setUsername(username);
+//        mailSender.setPassword(pass);
+//
+//        return mailSender;
+//    }
 
     public void setMail(String subject, String body, String email) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -61,12 +55,15 @@ public class MailService {
         mimeMessageHelper.setTo(email);
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setText(body, true); //메일을 html 타입으로 보낸다
-        sendMail(mimeMessageHelper.getMimeMessage());
+
+        javaMailSender.send(message);
+
+        //sendMail(mimeMessageHelper.getMimeMessage());
     }
 
-    public void sendMail(MimeMessage message) {
-        getJavaMailSender().send(message);
-    }
+//    public void sendMail(MimeMessage message) {
+//        getJavaMailSender().send(message);
+//    }
 
     public void sendTestEmail(String subject, String email) throws MessagingException {
 
