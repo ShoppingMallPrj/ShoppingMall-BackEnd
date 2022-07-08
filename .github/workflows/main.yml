@@ -17,6 +17,9 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
+        -names: see files
+        run: ls -al
+
       - name: Setup Secret Keys (email, db, S3)
         uses: mikefarah/yq@master
         with:
