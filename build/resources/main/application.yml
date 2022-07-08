@@ -20,9 +20,9 @@ spring:
   profiles:
     include: 'aws, db, email, social'
 
-#  redis:
-#    host: redis
-#    port: 6379
+  redis:
+    host: redis
+    port: 6379
 
   server:
     port: 8080
