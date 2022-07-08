@@ -1,6 +1,0 @@
-#kakao
-kakao:
-  client:
-    id: 0000
-  redirect:
-    url: http://localhost:3000
