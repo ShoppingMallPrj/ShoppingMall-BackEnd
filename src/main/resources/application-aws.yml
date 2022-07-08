@@ -2,8 +2,8 @@
 cloud:
   aws:
     credentials:
-      accessKey: AKIAZDM64FMQJQZMNLJC
-      secretKey: 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
+      accessKey: 0000
+      secretKey: 0000
     s3:
       bucket: ourclothing
     region:
