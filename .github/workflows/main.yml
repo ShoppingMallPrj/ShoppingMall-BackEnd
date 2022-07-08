@@ -17,6 +17,11 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
       - name: Setup Secret Keys (email, db, S3)
         uses: mikefarah/yq@master
         with:
@@ -60,7 +65,6 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ env.VERSION }} # runner 설정에서 읽어들일거에요.
           restore-keys: |
             ${{ runner.os }}-buildx-
-
 
       - name: Login to ghcr
         uses: docker/login-action@v1
