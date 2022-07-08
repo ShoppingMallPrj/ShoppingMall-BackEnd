@@ -31,13 +31,17 @@ public class MailService {
     private String url = "http://localhost:8080";
 
     @Value("${spring.mail.password}")
-    public String pass;
+    private String pass;
     @Value("${spring.mail.username}")
     private String username;
     @Value("${spring.mail.host}")
     private String host;
     @Value("${spring.mail.port}")
     private int port;
+
+    public String getPass() {
+        return pass;
+    }
 
     public JavaMailSender getJavaMailSender() {
 
