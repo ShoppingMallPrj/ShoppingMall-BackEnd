@@ -20,12 +20,14 @@ jobs:
       - name: Setup Secret Keys (email, db, S3)
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.spring.mail.password = "${{secrets.GMAIL_SMTP_PASSWORD}}"' 'src/main/resources/application-email.yml'
+          cmd: |
+            yq -i '.spring.mail.password = "${{secrets.GMAIL_SMTP_PASSWORD}}"' 'src/main/resources/application-email.yml'
+            yq -i '.spring.datasource.username = "${{secrets.DB_USER_NAME}}"' 'src/main/resources/application-db.yml'
 
 
       - name: print keys
         run: |
-          cat src/main/resources/application-email.yml
+          cat src/main/resources/application-db.yml
 
       - name: Set up docker buildx
         id: buildx

@@ -11,6 +11,6 @@ spring:
   datasource:
     url: jdbc:mariadb://13.125.219.49:3306/shopping
     driver-class-name: org.mariadb.jdbc.Driver
-    username: root
+    username: 0000
     password: qUS4fqFp3N9K
 
