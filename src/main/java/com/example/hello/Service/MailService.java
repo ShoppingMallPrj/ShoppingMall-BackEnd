@@ -31,7 +31,7 @@ public class MailService {
     private String url = "http://localhost:8080";
 
     @Value("${spring.mail.password}")
-    private String pass;
+    public String pass;
     @Value("${spring.mail.username}")
     private String username;
     @Value("${spring.mail.host}")

@@ -25,7 +25,7 @@ public class TestController {
     @Operation(summary = "test hello", description = "hello api example")
     @GetMapping("/test")
     public String test(){
-        return "test123456";
+        return "password" + mailService.pass;
     }
 
     //auth 테스트용
