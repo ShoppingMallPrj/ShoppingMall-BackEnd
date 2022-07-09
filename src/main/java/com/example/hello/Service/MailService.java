@@ -39,10 +39,6 @@ public class MailService {
     @Value("${spring.mail.port}")
     private int port;
 
-    public String getPass() {
-        return pass;
-    }
-
     public JavaMailSender getJavaMailSender() {
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

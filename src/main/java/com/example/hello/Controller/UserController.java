@@ -57,7 +57,7 @@ public class UserController {
             @PathVariable String email
     ) throws MessagingException {
 
-        //String code = signUpCodeService.generateCode(email);
+        String code = signUpCodeService.generateCode(email);
         mailService.sendConfirmEmail("123456", email);
     }
 
