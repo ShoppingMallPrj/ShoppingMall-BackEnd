@@ -58,13 +58,22 @@ jobs:
       - name: see files
         run: ls ./build/libs
 
-      - name: Cache docker layers
-        uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ env.VERSION }} # runner 설정에서 읽어들일거에요.
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
+            ${{ runner.os }}-gradle-
+
+#      - name: Cache docker layers
+#        uses: actions/cache@v2
+#        with:
+#          path: /tmp/.buildx-cache
+#          key: ${{ runner.os }}-buildx-${{ env.VERSION }} # runner 설정에서 읽어들일거에요.
+#          restore-keys: |
+#            ${{ runner.os }}-buildx-
 
       - name: Login to ghcr
         uses: docker/login-action@v1
