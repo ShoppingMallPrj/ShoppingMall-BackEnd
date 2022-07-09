@@ -58,7 +58,7 @@ public class UserController {
     ) throws MessagingException {
 
         String code = signUpCodeService.generateCode(email);
-        mailService.sendConfirmEmail("123456", email);
+        mailService.sendConfirmEmail(code, email);
     }
 
     @Operation(summary = "유저 정보 가져오기", description = "id 기준으로 유저 정보를 가져온다.")
