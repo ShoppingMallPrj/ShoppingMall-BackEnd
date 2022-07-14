@@ -19,7 +19,7 @@ public class ItemUploadDto {
 
     @Schema(description = "상품 이름")
     @Size(min = 2, message = "상품 이름은 최소 2자 이상이어야 합니다!")
-    @Size(max = 20, message = "상품 이름은 최대 20자 이하여야 합니다!")
+    @Size(max = 50, message = "상품 이름은 최대 50자 이하여야 합니다!")
     private String itemName;
 
     @Schema(description = "상품 카테고리")
@@ -32,7 +32,7 @@ public class ItemUploadDto {
 
     @Schema(description = "상품 설명", nullable = false)
     @Size(min = 2, message = "상품 설명은 최소 2자 이상이어야 합니다!")
-    @Size(max = 200, message = "상품 설명은 최대 200자 이하여야 합니다!")
+    @Size(max = 500, message = "상품 설명은 최대 500자 이하여야 합니다!")
     private String itemDescription;
 
     @Schema(description = "상품 가격", nullable = false)
