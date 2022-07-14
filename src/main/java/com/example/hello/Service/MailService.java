@@ -1,5 +1,8 @@
 package com.example.hello.Service;
 
+import com.example.hello.Dto.In.Order.OrderInDto;
+import com.example.hello.Entity.OrderEntity;
+import com.example.hello.Entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,13 +84,15 @@ public class MailService {
 
     //주문시 주문 내역 이메일 발송
     @Async
-    public void sendOrderConfirmMail( ) throws MessagingException {
+    public void sendOrderConfirmMail(String email, OrderEntity orderEntity) throws MessagingException {
 
         log.info("==================================================");
         log.info("주문 알림 메일 발송");
-        String email = "메일 주소";
         //if(!EmailValidator.emailValidator(email)) throw new BadRequestException(ErrorCode.NO_EMAIL_PATTERN);
         Context context = new Context();
+        context.setVariable("total", orderEntity.getTotal());
+        context.setVariable("date", orderEntity.getOrderDate());
+        context.setVariable("memo", orderEntity.getMemo());
 
         String subject = "메일 제목";
         String body = templateEngine.process("OrderEmail", context);
@@ -96,6 +101,7 @@ public class MailService {
     }
 
     //유효한 이메일 주소인지 인증하는 메일을 발송
+    @Async
     public void sendConfirmEmail(String code, String email) throws MessagingException {
 
         Context context = new Context();

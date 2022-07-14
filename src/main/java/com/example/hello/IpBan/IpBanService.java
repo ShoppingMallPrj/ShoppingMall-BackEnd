@@ -20,21 +20,30 @@ public class IpBanService {
 
         //ip 주소를 얻어온다(여러 종류의 헤더를 적용)
         String ip = request.getHeader("X-Forwarded-For");
-
+        System.out.println("X-Forwarded-For " + ip);
         if (ip == null) {
             ip = request.getHeader("Proxy-Client-IP");
+            System.out.println("Proxy " + ip);
+
         }
         if (ip == null) {
             ip = request.getHeader("WL-Proxy-Client-IP");
+            System.out.println("WL " + ip);
         }
         if (ip == null) {
             ip = request.getHeader("HTTP_CLIENT_IP");
+            System.out.println("HTTP_CLIENT_IP " + ip);
+
         }
         if (ip == null) {
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+            System.out.println("HTTP_X_FORWARDED_FOR " + ip);
+
         }
         if (ip == null) {
             ip = request.getRemoteAddr();
+            System.out.println("getRemoteAddr " + ip);
+
         }
 
         log.info("[{}], Result : IP Address : {}", MDC.get("UUID"),ip);

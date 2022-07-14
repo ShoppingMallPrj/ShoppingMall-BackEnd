@@ -7,6 +7,7 @@ import com.example.hello.Dto.Out.Order.OrderOutDto;
 import com.example.hello.Entity.ItemEntity;
 import com.example.hello.Entity.OrderEntity;
 import com.example.hello.Entity.OrderListEntity;
+import com.example.hello.Entity.UserEntity;
 import com.example.hello.Repository.*;
 import com.example.hello.Types.OrderStatus;
 import com.example.hello.Util.ModelMapperBean;
@@ -84,11 +85,11 @@ public class OrderService {
     public OrderEntity createOrder(int userId, OrderInDto orderInDto) throws MessagingException {
 
         System.out.println(orderInDto.getOrderList());
+        UserEntity userEntity = userRepository.getById(userId);
 
         //Order 엔티티 생성
         OrderEntity orderEntity = new OrderEntity();
-
-        orderEntity.setUser(userRepository.getById(userId));
+        orderEntity.setUser(userEntity);
 
         orderEntity.setOrderName(orderInDto.getOrderName());
         orderEntity.setOrderPhone(orderInDto.getOrderPhone());
@@ -137,7 +138,7 @@ public class OrderService {
         orderListRepository.saveAll(orderListEntities);
 
         //주문 완료 이메일 발송
-        //mailService.sendOrderConfirmMail();
+        mailService.sendOrderConfirmMail(userEntity.getUserEmail(), orderEntity);
 
         return orderEntity;
     }

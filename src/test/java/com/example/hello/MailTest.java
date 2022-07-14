@@ -1,5 +1,6 @@
 package com.example.hello;
 
+import com.example.hello.Repository.OrderRepository;
 import com.example.hello.Service.MailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ public class MailTest {
 
     @Autowired
     MailService mailService;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Test
     public void sendTestMail()  {
@@ -36,5 +40,7 @@ public class MailTest {
             e.printStackTrace();
         }
     }
+
+
 
 }
