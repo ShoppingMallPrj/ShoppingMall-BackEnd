@@ -29,7 +29,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 
         if (ipBanService.isIpBanned(request)){
              log.warn("[{}] 제한된 접근입니다. request uri={}, client ip={}",MDC.get("UUID"), request.getRequestURI(), ipBanService.getIpAdress(request));
-            return false;
+            return true;
         }
 
         if (bucket.tryConsume(1)) {
@@ -43,7 +43,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
             System.out.println("아이피" +ip);
             ipBanService.saveBanIp(ip);
             log.info(" [{}] 트래픽 초과 IP : {}", MDC.get("UUID"),request.getRemoteAddr());
-            return false;
+            return true;
         }
     }
 
