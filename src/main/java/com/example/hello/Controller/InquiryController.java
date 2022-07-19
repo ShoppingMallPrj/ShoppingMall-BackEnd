@@ -17,6 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +40,10 @@ public class InquiryController {
     @Operation(summary = "문의사항 전부 가져오기", description = "모든 문의사항을 가져온다. 관리자 권한 필요")
     //@Auth(userRole = UserRole.ADMIN)
     @GetMapping("/list")
-    public Page<InquiryOutDto> readAll(Pageable pageable){
+    public Page<InquiryOutDto> readAll(
+            @SortDefault(sort = "inquiryId", direction = Sort.Direction.DESC)
+            Pageable pageable){
+
 
         return inquiryService.readAll(pageable);
     }
