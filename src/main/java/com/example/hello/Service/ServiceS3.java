@@ -5,10 +5,8 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.DeleteObjectsRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -51,6 +49,11 @@ public class ServiceS3 {
         long time = System.currentTimeMillis();
 
         String uploadName =  time + file.getOriginalFilename();
+
+       ObjectMetadata objMeta = new ObjectMetadata();
+
+       byte[] bytes = IOUtils.toByteArray(file.getInputStream());
+       objMeta.setContentLength(bytes.length);
 
         s3Client.putObject(new PutObjectRequest(bucket, uploadName, file.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
