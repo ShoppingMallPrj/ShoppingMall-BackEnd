@@ -53,11 +53,10 @@ public class ItemEntity {
     @JoinColumn(name = "item_id")
     private Set<ItemReviewEntity> review = new HashSet<>();
 
-    public void update(String itemName, String category, String gender, String itemProfile, String itemDescription, int itemPrice) {
+    public void update(String itemName, String category, String gender, String itemDescription, int itemPrice) {
         this.itemName = itemName;
         this.category = category;
         this.gender = gender;
-        this.itemProfile = itemProfile;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
     }

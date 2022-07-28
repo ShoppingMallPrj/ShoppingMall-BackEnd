@@ -212,7 +212,7 @@ public class ItemService {
         ItemEntity itemEntity = itemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
         //JPA 의 영속성 컨텍스트 덕분에 entity 객체의 값만 변경하면 자동으로 변경사항 반영
-        itemEntity.update(itemUploadDto.getItemName(), itemUploadDto.getItemCategory(), itemUploadDto.getGender(), itemEntity.getItemProfile(), itemUploadDto.getItemDescription(), itemUploadDto.getItemPrice());
+        itemEntity.update(itemUploadDto.getItemName(), itemUploadDto.getItemCategory(), itemUploadDto.getGender(),  itemUploadDto.getItemDescription(), itemUploadDto.getItemPrice());
     }
 
     // 상품 삭제
