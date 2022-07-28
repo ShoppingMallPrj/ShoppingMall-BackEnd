@@ -110,7 +110,7 @@ public class ItemController {
     @Operation(summary = "상품 수정", description = "상품을 수정 한다. 관리자 권한 필요")
     @Auth(userRole = UserRole.ADMIN)
     @PutMapping("/{id}")
-    public void updateItem(@PathVariable("id") int id, @RequestBody ItemUploadDto itemUploadDto) {
+    public void updateItem(@PathVariable("id") int id, ItemUploadDto itemUploadDto) {
         itemService.itemUpdate(id, itemUploadDto);
     }
 
