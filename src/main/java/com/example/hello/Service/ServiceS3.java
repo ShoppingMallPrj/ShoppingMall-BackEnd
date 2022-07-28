@@ -54,7 +54,7 @@ public class ServiceS3 {
 
        byte[] bytes = IOUtils.toByteArray(file.getInputStream());
        objMeta.setContentLength(bytes.length);
-       
+
         s3Client.putObject(new PutObjectRequest(bucket, uploadName, file.getInputStream(), objMeta)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
