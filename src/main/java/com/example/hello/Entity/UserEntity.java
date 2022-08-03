@@ -1,10 +1,8 @@
 package com.example.hello.Entity;
 
-import com.example.hello.Dto.In.User.SignUpDto;
+import com.example.hello.Dto.Request.User.SignUpDto;
 import com.example.hello.Types.UserRole;
-import com.example.hello.Types.UserType;
 import lombok.Data;
-import org.hibernate.criterion.Order;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.password.PasswordEncoder;

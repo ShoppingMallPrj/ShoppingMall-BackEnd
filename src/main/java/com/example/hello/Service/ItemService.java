@@ -1,12 +1,11 @@
 package com.example.hello.Service;
 
 
-import com.example.hello.Dto.In.Item.ItemOptionInDto;
-import com.example.hello.Dto.In.Item.ItemReviewInDto;
-import com.example.hello.Dto.In.Item.ItemUploadDto;
-import com.example.hello.Dto.Out.Item.ItemListOutDto;
-import com.example.hello.Dto.Out.Item.ItemOutDto;
-import com.example.hello.Dto.Out.Item.ItemReviewOutDto;
+import com.example.hello.Dto.Request.Item.ItemOptionDto;
+import com.example.hello.Dto.Request.Item.ItemUploadDto;
+import com.example.hello.Dto.Response.Item.ItemListDto;
+import com.example.hello.Dto.Response.Item.ItemDto;
+import com.example.hello.Dto.Response.Item.ItemReviewDto;
 import com.example.hello.Entity.ItemEntity;
 import com.example.hello.Entity.ItemImageEntity;
 import com.example.hello.Entity.ItemOptionEntity;
@@ -109,11 +108,11 @@ public class ItemService {
             System.out.println("option : " + itemUploadDto.getOption()[0]);
 
             JSONObject jsonObj = (JSONObject) jsonParser.parse(option);
-            ItemOptionInDto itemOptionInDto = modelMapperBean.modelMapper().map(jsonObj, ItemOptionInDto.class);
+            ItemOptionDto itemOptionDto = modelMapperBean.modelMapper().map(jsonObj, ItemOptionDto.class);
 
             itemOptionEntity.setItemId(itemEntity.getItemId());
-            itemOptionEntity.setOptionContent(itemOptionInDto.getOptionContent());
-            itemOptionEntity.setOptionStock(itemOptionInDto.getOptionStock());
+            itemOptionEntity.setOptionContent(itemOptionDto.getOptionContent());
+            itemOptionEntity.setOptionStock(itemOptionDto.getOptionStock());
 
             itemOptionEntities.add(itemOptionEntity);
         }
@@ -133,75 +132,75 @@ public class ItemService {
 //    }
 
     // 모든 상품을 리스트에 나타낸다.
-    public Page<ItemListOutDto> readAllByPage(Pageable pageable) {
+    public Page<ItemListDto> readAllByPage(Pageable pageable) {
 
         Page<ItemEntity> itemEntityPage = itemRepository.findAllByPage(pageable);
-        Page<ItemListOutDto> itemListDtos = ItemListOutDto.from(itemEntityPage, modelMapperBean.modelMapper());
+        Page<ItemListDto> itemListDtos = ItemListDto.from(itemEntityPage, modelMapperBean.modelMapper());
 
         return itemListDtos;
     }
 
     // 각 성별의 해당하는 상품을 리스트에 나타낸다.
-    public Page<ItemListOutDto> findAllByGender(String gender, Pageable pageable) {
+    public Page<ItemListDto> findAllByGender(String gender, Pageable pageable) {
 
         Page<ItemEntity> itemEntityPage = itemRepository.findAllByGender(gender, pageable);
-        Page<ItemListOutDto> itemListDtos = ItemListOutDto.from(itemEntityPage, modelMapperBean.modelMapper());
+        Page<ItemListDto> itemListDtos = ItemListDto.from(itemEntityPage, modelMapperBean.modelMapper());
 
         return itemListDtos;
     }
 
     // 각 성별 + 카테고리를 리스트에 나타낸다.
-    public Page<ItemListOutDto> findByItemCategoryAndGender1(String category, String gender, Pageable pageable) {
+    public Page<ItemListDto> findByItemCategoryAndGender1(String category, String gender, Pageable pageable) {
 
         Page<ItemEntity> itemEntityPage = itemRepository.findByCategoryAndGender1(category, gender, pageable);
-        Page<ItemListOutDto> itemListDtos = ItemListOutDto.from(itemEntityPage, modelMapperBean.modelMapper());
+        Page<ItemListDto> itemListDtos = ItemListDto.from(itemEntityPage, modelMapperBean.modelMapper());
 
         return itemListDtos;
     }
 
     // 검색한 상품을 리스트에 나타낸다.
-    public Page<ItemListOutDto> findItemWithSearch(String keyword, Pageable pageable) {
+    public Page<ItemListDto> findItemWithSearch(String keyword, Pageable pageable) {
 
         Page<ItemEntity> itemEntityPage = itemRepository.findItemWithSearch(keyword, pageable);
-        Page<ItemListOutDto> itemListDtos = ItemListOutDto.from(itemEntityPage, modelMapperBean.modelMapper());
+        Page<ItemListDto> itemListDtos = ItemListDto.from(itemEntityPage, modelMapperBean.modelMapper());
 
         return itemListDtos;
     }
 
     //상품 하나를 읽어온다.
-    public ItemOutDto itemDetail(int id) {
+    public ItemDto itemDetail(int id) {
 
         //타겟 id의 상품을 하나 읽어온다.
         ItemEntity itemEntity = itemRepository.findById(id).get();
-        ItemOutDto itemOutDto = ItemOutDto.from(itemEntity, modelMapperBean.modelMapper());
+        ItemDto itemDto = ItemDto.from(itemEntity, modelMapperBean.modelMapper());
 
         //타겟 아이디의 연관상품 (같은 성별, 같은 카테고리)의 아이템 엔티티를 레포지토리에서 추가로 읽어온다
         Set<ItemEntity> relatedItems = itemRepository.findByCategoryAndGender(itemEntity.getCategory(), itemEntity.getGender());
 
         //연관상품 엔티티들을 ListOutDto로 변환
-        Set<ItemListOutDto> itemListOutDtos = ItemListOutDto.from(relatedItems, modelMapperBean.modelMapper());
+        Set<ItemListDto> itemListDtos = ItemListDto.from(relatedItems, modelMapperBean.modelMapper());
 
         //itemDto 에 연관상품 dto를 추가한다.
-        itemOutDto.setRelated(itemListOutDtos);
+        itemDto.setRelated(itemListDtos);
 
         // 해당 상품 id의 아이템 엔티티를 레포지토리에서 읽어온다.
         Set<ItemReviewEntity> itemReviews = itemReviewRepository.findByItemId(itemEntity.getItemId());
 
         // 리뷰 엔티티들을 ReviewOutDto로 변환
-        Set<ItemReviewOutDto> itemReviewOutDtos = ItemReviewOutDto.from(itemReviews, modelMapperBean.modelMapper());
+        Set<ItemReviewDto> itemReviewDtos = ItemReviewDto.from(itemReviews, modelMapperBean.modelMapper());
 
         // itemOutDto에 리뷰 Dto를 추가
-        itemOutDto.setReviews(itemReviewOutDtos);
+        itemDto.setReviews(itemReviewDtos);
 
         //완성된 dto를 리턴한다.
-        return itemOutDto;
+        return itemDto;
     }
 
     //검색 조건을 이용해 상품의 목록을 받아온다.
-    public Page<ItemListOutDto> searchItems(String keyword, Pageable pageable) {
+    public Page<ItemListDto> searchItems(String keyword, Pageable pageable) {
 
         Page<ItemEntity> itemEntityPage = itemRepository.findItemWithSearch(keyword, pageable);
-        Page<ItemListOutDto> itemListDtos = ItemListOutDto.from(itemEntityPage, modelMapperBean.modelMapper());
+        Page<ItemListDto> itemListDtos = ItemListDto.from(itemEntityPage, modelMapperBean.modelMapper());
 
         return itemListDtos;
     }
@@ -226,18 +225,18 @@ public class ItemService {
 
     // 리뷰 생성
     @Transactional
-    public void createReview(int userId, ItemReviewInDto itemReviewInDto) {
+    public void createReview(int userId, com.example.hello.Dto.Request.Item.ItemReviewDto itemReviewDto) {
 
         ItemReviewEntity itemReviewEntity = new ItemReviewEntity();
 
         itemReviewEntity.setUserId(userId);
-        itemReviewEntity.setItemId(itemReviewInDto.getItemId());
-        itemReviewEntity.setReviewContent(itemReviewInDto.getReviewContent());
-        itemReviewEntity.setReviewStar(itemReviewInDto.getReviewStar());
+        itemReviewEntity.setItemId(itemReviewDto.getItemId());
+        itemReviewEntity.setReviewContent(itemReviewDto.getReviewContent());
+        itemReviewEntity.setReviewStar(itemReviewDto.getReviewStar());
 
         itemReviewRepository.save(itemReviewEntity);
 
-        ItemEntity itemEntity = itemRepository.getById(itemReviewInDto.getItemId());
+        ItemEntity itemEntity = itemRepository.getById(itemReviewDto.getItemId());
         itemEntity.getReview().add(itemReviewEntity);
 
     }
@@ -250,23 +249,23 @@ public class ItemService {
 
     //상품의 옵션을 추가한다.
     @Transactional
-    public void addItemOption(int itemId, ItemOptionInDto itemOptionInDto) {
+    public void addItemOption(int itemId, ItemOptionDto itemOptionDto) {
 
         ItemOptionEntity itemOptionEntity = new ItemOptionEntity();
 
         itemOptionEntity.setItemId(itemId);
-        itemOptionEntity.setOptionContent(itemOptionInDto.getOptionContent());
-        itemOptionEntity.setOptionStock(itemOptionInDto.getOptionStock());
+        itemOptionEntity.setOptionContent(itemOptionDto.getOptionContent());
+        itemOptionEntity.setOptionStock(itemOptionDto.getOptionStock());
 
         itemOptionRepository.save(itemOptionEntity);
     }
 
     //상품의 옵션을 수정한다.
     @Transactional
-    public void updateItemOption(int itemOptionId, ItemOptionInDto itemOptionInDto) {
+    public void updateItemOption(int itemOptionId, ItemOptionDto itemOptionDto) {
 
         ItemOptionEntity itemOptionEntity = itemOptionRepository.getById(itemOptionId);
-        itemOptionEntity.setOptionContent(itemOptionInDto.getOptionContent());
+        itemOptionEntity.setOptionContent(itemOptionDto.getOptionContent());
         itemOptionEntity.setOptionStock(itemOptionEntity.getOptionStock());
     }
 

@@ -1,32 +1,22 @@
 package com.example.hello.Service;
 
-import com.example.hello.Dto.In.User.LoginDto;
-import com.example.hello.Dto.In.User.SignUpDto;
-import com.example.hello.Dto.Out.User.LoginResultDto;
-import com.example.hello.Dto.Out.User.UserOutDto;
-import com.example.hello.Dto.In.User.UserUpdateDto;
+import com.example.hello.Dto.Request.User.SignUpDto;
+import com.example.hello.Dto.Response.User.LoginDto;
+import com.example.hello.Dto.Response.User.UserDto;
+import com.example.hello.Dto.Request.User.UserUpdateDto;
 import com.example.hello.Entity.UserEntity;
 import com.example.hello.Exception.BadRequestException;
 import com.example.hello.Exception.ErrorCode;
 import com.example.hello.Exception.NoAuthException;
 import com.example.hello.Repository.UserRepository;
 import com.example.hello.Token.TokenProvider;
-import com.example.hello.Types.UserType;
 import com.example.hello.Util.ModelMapperBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.MessagingException;
-
-import java.util.Random;
-
 import static com.example.hello.Exception.ErrorCode.ALREADY_EMAIL_ERROR;
-import static com.example.hello.Exception.ErrorCode.WRONG_SIGNUP_CODE;
 
 @Service
 public class UserService {
@@ -50,7 +40,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     //일반 계정의 로그인 시 사용
-    public LoginResultDto login(LoginDto loginDto) {
+    public LoginDto login(com.example.hello.Dto.Request.User.LoginDto loginDto) {
 
         UserEntity userEntity = userRepository.findByUserEmail(loginDto.getEmail());
 
@@ -62,7 +52,7 @@ public class UserService {
             throw new NoAuthException(ErrorCode.LOGIN_FAIL_ERROR);
         }
 
-        LoginResultDto loginResultDto = LoginResultDto.from(userEntity, tokenProvider);
+        LoginDto loginResultDto = LoginDto.from(userEntity, tokenProvider);
 
         return loginResultDto;
     }
@@ -89,10 +79,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserOutDto readUser(int userId) {
+    public UserDto readUser(int userId) {
 
         UserEntity userEntity = userRepository.findByUserId(userId);
-        return UserOutDto.from(userEntity, modelMapperBean.modelMapper());
+        return UserDto.from(userEntity, modelMapperBean.modelMapper());
     }
 
     //유저를 수정한다. 비밀번호, 주소, 휴대전화 번호만 수정이 가능하다.

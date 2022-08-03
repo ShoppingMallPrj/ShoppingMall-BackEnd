@@ -2,23 +2,8 @@ package com.example.hello.Integration;
 
 //import com.example.hello.Dto.Common.OrderDto;
 //import com.example.hello.Dto.Common.OrderListDto;
-import com.example.hello.Dto.In.Order.OrderInDto;
-import com.example.hello.Entity.*;
-import com.example.hello.Repository.*;
-import com.example.hello.Service.OrderService;
-import com.example.hello.TestEntity;
-import com.example.hello.Types.OrderStatus;
-import com.example.hello.Types.UserRole;
-import com.example.hello.Types.UserType;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

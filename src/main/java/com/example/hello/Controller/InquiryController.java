@@ -3,11 +3,9 @@ package com.example.hello.Controller;
 import com.example.hello.Annotation.Auth;
 import com.example.hello.Annotation.User;
 import com.example.hello.Annotation.UserDetails;
-import com.example.hello.Dto.In.Inquiry.InquiryAnswerInDto;
-import com.example.hello.Dto.In.Inquiry.InquiryInDto;
-import com.example.hello.Dto.Out.Inquiry.InquiryDetailOutDto;
-import com.example.hello.Dto.Out.Inquiry.InquiryOutDto;
-import com.example.hello.Exception.NoAuthException;
+import com.example.hello.Dto.Request.Inquiry.InquiryAnswerDto;
+import com.example.hello.Dto.Response.Inquiry.InquiryDetailDto;
+import com.example.hello.Dto.Response.Inquiry.InquiryDto;
 import com.example.hello.Service.InquiryService;
 import com.example.hello.Types.UserRole;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,16 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Set;
-
-import static com.example.hello.Exception.ErrorCode.NO_AUTHORIZATION_ERROR;
 
 @Tag(name = "Inquiry", description = "문의사항 관련 api")
 @RestController
@@ -40,7 +34,7 @@ public class InquiryController {
     @Operation(summary = "문의사항 전부 가져오기", description = "모든 문의사항을 가져온다. 관리자 권한 필요")
     //@Auth(userRole = UserRole.ADMIN)
     @GetMapping("/list")
-    public Page<InquiryOutDto> readAll(
+    public Page<InquiryDto> readAll(
             @SortDefault(sort = "inquiryId", direction = Sort.Direction.DESC)
             Pageable pageable){
 
@@ -51,7 +45,7 @@ public class InquiryController {
     @Operation(summary = "문의사항 가져오기", description = "문의사항을 하나 가져온다.")
     //@Auth(userRole = UserRole.NONE)
     @GetMapping("/{id}")
-    public InquiryDetailOutDto read(
+    public InquiryDetailDto read(
             @Parameter(hidden = true)
             @User UserDetails userDetails,
             @Parameter(name = "id", description = "문의사항의 고유 id", in = ParameterIn.PATH)
@@ -62,14 +56,14 @@ public class InquiryController {
 
         //admin이면 무조건 통과
         //아니면 비밀번호 통해서 들어가야 함.
-        InquiryDetailOutDto inquiryDetailOutDto = inquiryService.read(inquiryId);
+        InquiryDetailDto inquiryDetailDto = inquiryService.read(inquiryId);
 //
 //        if(!inquiryDetailOutDto.isSecret() || userDetails.getUserRole() == UserRole.ADMIN) return inquiryDetailOutDto;
 //
 //        if(!pw.equals(inquiryDetailOutDto.getInquiryPw())) throw new NoAuthException(NO_AUTHORIZATION_ERROR);
 //        if(userDetails.getUserId() != inquiryDetailOutDto.getUserId()) throw new NoAuthException(NO_AUTHORIZATION_ERROR);
 
-        return inquiryDetailOutDto;
+        return inquiryDetailDto;
     }
 
     @Operation(summary = "문의사항 등록", description = "문의사항을 등록한다. 유저 권한 필요")
@@ -79,9 +73,9 @@ public class InquiryController {
             @Parameter(hidden = true)
             @User UserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "문의사항 정보 dto", required = true)
-            @Valid @RequestBody InquiryInDto inquiryInDto){
+            @Valid @RequestBody com.example.hello.Dto.Request.Inquiry.InquiryDto inquiryDto){
 
-        inquiryService.create(userDetails.getUserId(), inquiryInDto);
+        inquiryService.create(userDetails.getUserId(), inquiryDto);
 
         return new ResponseEntity<>(
                 "",
@@ -94,7 +88,7 @@ public class InquiryController {
     @PostMapping("/{id}")
     public void answer(
             @Parameter(name = "answer", description = "답변 내용", in = ParameterIn.DEFAULT)
-            @RequestBody InquiryAnswerInDto answer,
+            @RequestBody InquiryAnswerDto answer,
             @Parameter(name = "id", description = "문의사항의 고유 id", in = ParameterIn.PATH)
             @PathVariable int id
     ) {

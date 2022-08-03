@@ -1,16 +1,14 @@
 package com.example.hello.Service;
 
 
-import com.example.hello.Dto.In.Order.OrderInDto;
-import com.example.hello.Dto.In.Order.OrderListInDto;
-import com.example.hello.Dto.Out.Order.OrderOutDto;
+import com.example.hello.Dto.Request.Order.OrderListDto;
+import com.example.hello.Dto.Response.Order.OrderDto;
 import com.example.hello.Entity.ItemEntity;
 import com.example.hello.Entity.OrderEntity;
 import com.example.hello.Entity.OrderListEntity;
 import com.example.hello.Entity.UserEntity;
 import com.example.hello.Repository.*;
 import com.example.hello.Types.OrderStatus;
-import com.example.hello.Util.ModelMapperBean;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -54,55 +51,55 @@ public class OrderService {
     }
 
     //주문을 목록으로 읽는다. 상태에 따라 분류가 가능하다.
-    public Page<OrderOutDto> readList(OrderStatus orderStatus, Pageable pageable){
+    public Page<OrderDto> readList(OrderStatus orderStatus, Pageable pageable){
 
         Page<OrderEntity> orderEntities = orderRepository.findAllByCondition(orderStatus, pageable);
-        Page<OrderOutDto> orderOutDtos = OrderOutDto.from(orderEntities, modelMapper);
+        Page<OrderDto> orderOutDtos = OrderDto.from(orderEntities, modelMapper);
 
         return orderOutDtos;
     }
 
     //유저의 주문을 목록으로 읽는다.
-    public Page<OrderOutDto> readUserOrderList(int userId, Pageable pageable){
+    public Page<OrderDto> readUserOrderList(int userId, Pageable pageable){
 
         Page<OrderEntity> orderEntities = orderRepository.findAllByUser(userId, pageable);
-        Page<OrderOutDto> orderOutDtos = OrderOutDto.from(orderEntities, modelMapper);
+        Page<OrderDto> orderOutDtos = OrderDto.from(orderEntities, modelMapper);
 
         return orderOutDtos;
     }
 
     //주문 하나를 읽는다.
-    public OrderOutDto read(int orderId){
+    public OrderDto read(int orderId){
 
         OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
-        OrderOutDto orderDto = OrderOutDto.from(orderEntity, modelMapper);
+        OrderDto orderDto = OrderDto.from(orderEntity, modelMapper);
 
         return orderDto;
     }
 
     //주문을 받는다.
     @Transactional
-    public OrderEntity createOrder(int userId, OrderInDto orderInDto) throws MessagingException {
+    public OrderEntity createOrder(int userId, com.example.hello.Dto.Request.Order.OrderDto orderDto) throws MessagingException {
 
-        System.out.println(orderInDto.getOrderList());
+        System.out.println(orderDto.getOrderList());
         UserEntity userEntity = userRepository.getById(userId);
 
         //Order 엔티티 생성
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUser(userEntity);
 
-        orderEntity.setOrderName(orderInDto.getOrderName());
-        orderEntity.setOrderPhone(orderInDto.getOrderPhone());
-        orderEntity.setOrderEmail(orderInDto.getOrderEmail());
+        orderEntity.setOrderName(orderDto.getOrderName());
+        orderEntity.setOrderPhone(orderDto.getOrderPhone());
+        orderEntity.setOrderEmail(orderDto.getOrderEmail());
 
-        orderEntity.setReceiptName(orderInDto.getReceiptName());
-        orderEntity.setReceiptPhone(orderInDto.getReceiptPhone());
+        orderEntity.setReceiptName(orderDto.getReceiptName());
+        orderEntity.setReceiptPhone(orderDto.getReceiptPhone());
 
-        orderEntity.setCode(orderInDto.getCode());
-        orderEntity.setAddr1(orderInDto.getAddr1());
-        orderEntity.setAddr2(orderInDto.getAddr2());
+        orderEntity.setCode(orderDto.getCode());
+        orderEntity.setAddr1(orderDto.getAddr1());
+        orderEntity.setAddr2(orderDto.getAddr2());
 
-        orderEntity.setMemo(orderInDto.getMemo());
+        orderEntity.setMemo(orderDto.getMemo());
         orderEntity.setOrderStatus(OrderStatus.준비중);
 
         //임시로 총액 설정
@@ -115,21 +112,21 @@ public class OrderService {
         //orderList 생성
         Set<OrderListEntity> orderListEntities = new HashSet<>();
 
-        for(OrderListInDto orderListInDto : orderInDto.getOrderList()){
+        for(OrderListDto orderListDto : orderDto.getOrderList()){
 
-            ItemEntity itemEntity = itemRepository.getById(orderListInDto.getItemId());
+            ItemEntity itemEntity = itemRepository.getById(orderListDto.getItemId());
 
             OrderListEntity orderList = new OrderListEntity();
 
             orderList.setOrderId(orderEntity.getOrderId());
             orderList.setItemEntity(itemEntity);
-            orderList.setItemStock(orderListInDto.getItemStock());
-            orderList.setItemOptionEntity(itemOptionRepository.getById(orderListInDto.getOptionId()));
+            orderList.setItemStock(orderListDto.getItemStock());
+            orderList.setItemOptionEntity(itemOptionRepository.getById(orderListDto.getOptionId()));
 
             orderListEntities.add(orderList);
             System.out.println(itemEntity.getItemPrice());
-            System.out.println(orderListInDto.getItemStock());
-            total += itemEntity.getItemPrice()*orderListInDto.getItemStock();
+            System.out.println(orderListDto.getItemStock());
+            total += itemEntity.getItemPrice()* orderListDto.getItemStock();
         }
         orderEntity.setTotal(total);
         //orderRepository.save(orderEntity);

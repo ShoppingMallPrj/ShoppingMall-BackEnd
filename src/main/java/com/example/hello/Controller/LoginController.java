@@ -1,9 +1,6 @@
 package com.example.hello.Controller;
 
-import com.example.hello.Dto.In.User.LoginDto;
-import com.example.hello.Dto.In.User.SnsSignupDto;
-import com.example.hello.Dto.Out.User.LoginResultDto;
-import com.example.hello.Dto.Out.User.SnsLoginResultDto;
+import com.example.hello.Dto.Response.User.LoginDto;
 import com.example.hello.Service.GoogleLoginService;
 import com.example.hello.Service.KakaoLoginService;
 import com.example.hello.Service.UserService;
@@ -33,21 +30,21 @@ public class LoginController {
 
     @Operation(summary = "일반 로그인", description = "카카오 ")
     @PostMapping("/email")
-    public LoginResultDto emailLogin(@RequestBody LoginDto loginDto) {
+    public LoginDto emailLogin(@RequestBody com.example.hello.Dto.Request.User.LoginDto loginDto) {
 
         return userService.login(loginDto);
     }
 
     @Operation(summary = "카카오 로그인", description = "카카오 ")
     @GetMapping("/kakao")
-    public ResponseEntity<LoginResultDto> kakaoLogin
+    public ResponseEntity<LoginDto> kakaoLogin
             (@Parameter(description = "코드 값", in = ParameterIn.QUERY)
              @RequestParam String code
             ) throws JsonProcessingException {
 
-        LoginResultDto loginResultDto = kakaoLoginService.kakaoLogin(code);
-        return new ResponseEntity<LoginResultDto>(
-                loginResultDto,
+        LoginDto loginDto = kakaoLoginService.kakaoLogin(code);
+        return new ResponseEntity<LoginDto>(
+                loginDto,
                 HttpStatus.OK
         );
         //return loginResultDto;
@@ -55,11 +52,11 @@ public class LoginController {
 
     @Operation(summary = "구글 로그인")
     @GetMapping("/google")
-    public ResponseEntity<LoginResultDto> googleLogin(@Parameter(description = "토큰 값", in = ParameterIn.QUERY) @RequestParam String tokenId){
+    public ResponseEntity<LoginDto> googleLogin(@Parameter(description = "토큰 값", in = ParameterIn.QUERY) @RequestParam String tokenId){
 
-        LoginResultDto loginResultDto = googleLoginService.googleLogin(tokenId);
-        return new ResponseEntity<LoginResultDto>(
-                loginResultDto,
+        LoginDto loginDto = googleLoginService.googleLogin(tokenId);
+        return new ResponseEntity<LoginDto>(
+                loginDto,
                 HttpStatus.OK
         );
     }

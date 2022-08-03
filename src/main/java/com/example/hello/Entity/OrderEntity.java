@@ -1,10 +1,6 @@
 package com.example.hello.Entity;
 
-import com.example.hello.Annotation.Collection;
-import com.example.hello.Dto.In.Order.OrderListInDto;
 import com.example.hello.Types.OrderStatus;
-import com.example.hello.Types.UserRole;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,7 +8,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;

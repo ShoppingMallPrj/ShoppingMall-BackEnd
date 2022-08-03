@@ -1,6 +1,6 @@
 package com.example.hello.Entity;
 
-import com.example.hello.Dto.In.Inquiry.InquiryInDto;
+import com.example.hello.Dto.Request.Inquiry.InquiryDto;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.annotation.CreatedDate;
@@ -54,9 +54,9 @@ public class InquiryEntity {
     @Column(name = "inquiry_pw")
     private String inquiryPw;
 
-    public static InquiryEntity from(InquiryInDto inquiryInDto, ModelMapper modelMapper){
+    public static InquiryEntity from(InquiryDto inquiryDto, ModelMapper modelMapper){
 
-        InquiryEntity inquiryEntity = modelMapper.map(inquiryInDto, InquiryEntity.class);
+        InquiryEntity inquiryEntity = modelMapper.map(inquiryDto, InquiryEntity.class);
 
         return inquiryEntity;
     }

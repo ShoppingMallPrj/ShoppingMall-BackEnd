@@ -1,9 +1,8 @@
 package com.example.hello.Service;
 
-import com.example.hello.Dto.In.Inquiry.InquiryAnswerInDto;
-import com.example.hello.Dto.In.Inquiry.InquiryInDto;
-import com.example.hello.Dto.Out.Inquiry.InquiryDetailOutDto;
-import com.example.hello.Dto.Out.Inquiry.InquiryOutDto;
+import com.example.hello.Dto.Request.Inquiry.InquiryAnswerDto;
+import com.example.hello.Dto.Response.Inquiry.InquiryDetailDto;
+import com.example.hello.Dto.Response.Inquiry.InquiryDto;
 import com.example.hello.Entity.InquiryEntity;
 import com.example.hello.Repository.InquiryRepository;
 import com.example.hello.Repository.UserRepository;
@@ -28,51 +27,51 @@ public class InquiryService {
     @Autowired
     ModelMapperBean modelMapperBean;
 
-    public Page<InquiryOutDto> readAll(Pageable pageable){
+    public Page<InquiryDto> readAll(Pageable pageable){
 
         Page<InquiryEntity> inquiryEntityPage = inquiryRepository.findAll(pageable);
-        Page<InquiryOutDto> inquiryDtos = InquiryOutDto.from(inquiryEntityPage, modelMapperBean.modelMapper());
+        Page<InquiryDto> inquiryDtos = InquiryDto.from(inquiryEntityPage, modelMapperBean.modelMapper());
         return inquiryDtos;
     }
 
     //특정 유저가 가진 문의사항을 전부 가져온다.
-    public Set<InquiryOutDto> readUserInquiry(int userId){
+    public Set<InquiryDto> readUserInquiry(int userId){
 
         Set<InquiryEntity> inquiryEntitySet  = inquiryRepository.readAllByUserId(userId);
-        Set<InquiryOutDto> inquiryDtos = InquiryOutDto.from(inquiryEntitySet, modelMapperBean.modelMapper());
+        Set<InquiryDto> inquiryDtos = InquiryDto.from(inquiryEntitySet, modelMapperBean.modelMapper());
 
         return inquiryDtos;
     }
 
     //문의사항을 하나 가져온다.
-    public InquiryDetailOutDto read(int inquiryId){
+    public InquiryDetailDto read(int inquiryId){
 
         InquiryEntity inquiryEntity =  inquiryRepository.readByInquiryId(inquiryId);
-        return InquiryDetailOutDto.from(inquiryEntity, modelMapperBean.modelMapper());
+        return InquiryDetailDto.from(inquiryEntity, modelMapperBean.modelMapper());
     }
 
     @Transactional
-    public InquiryEntity create(int userId, InquiryInDto inquiryInDto){
+    public InquiryEntity create(int userId, com.example.hello.Dto.Request.Inquiry.InquiryDto inquiryDto){
 
         InquiryEntity inquiryEntity = new InquiryEntity();
 
         inquiryEntity.setUserEntity(userRepository.findByUserId(userId));
-        inquiryEntity.setInquiryTitle(inquiryInDto.getInquiryTitle());
-        inquiryEntity.setInquiryContent(inquiryInDto.getInquiryContent());
+        inquiryEntity.setInquiryTitle(inquiryDto.getInquiryTitle());
+        inquiryEntity.setInquiryContent(inquiryDto.getInquiryContent());
         //inquiryEntity.setSecret(inquiryEntity.isSecret());
         //inquiryEntity.setInquiryPw(inquiryInDto.getInquiryPw());
         inquiryEntity.setAnswered(false);
 
-        System.out.println(inquiryInDto.getInquiryTitle());
+        System.out.println(inquiryDto.getInquiryTitle());
         return inquiryRepository.save(inquiryEntity);
     }
 
     //문의사항에 답변을 단다.
     @Transactional
-    public void answerInquiry(InquiryAnswerInDto inquiryAnswerInDto, int inquiryId){
+    public void answerInquiry(InquiryAnswerDto inquiryAnswerDto, int inquiryId){
 
         InquiryEntity inquiryEntity = inquiryRepository.readByInquiryId(inquiryId);
         inquiryEntity.setAnswered(true);
-        inquiryEntity.setInquiryAnswer(inquiryAnswerInDto.getAnswer());
+        inquiryEntity.setInquiryAnswer(inquiryAnswerDto.getAnswer());
     }
 }

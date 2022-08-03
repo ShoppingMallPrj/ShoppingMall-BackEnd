@@ -1,6 +1,6 @@
 package com.example.hello.Exception;
 
-import com.example.hello.Dto.Out.ErrorDto;
+import com.example.hello.Dto.Response.ErrorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.example.hello.ControllerTest;
 
 //import com.example.hello.Dto.Common.UserDto;
-import com.example.hello.Dto.In.User.SignUpDto;
+import com.example.hello.Dto.Request.User.SignUpDto;
 import com.example.hello.Entity.UserEntity;
 import com.example.hello.Repository.UserRepository;
 import com.example.hello.Token.TokenProvider;
@@ -20,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest

@@ -1,8 +1,7 @@
 package com.example.hello.Service;
 
-import com.example.hello.Dto.In.User.GoogleUserDto;
-import com.example.hello.Dto.Out.User.LoginResultDto;
-import com.example.hello.Dto.Out.User.SnsLoginResultDto;
+import com.example.hello.Dto.Request.User.GoogleUserDto;
+import com.example.hello.Dto.Response.User.LoginDto;
 import com.example.hello.Entity.UserEntity;
 import com.example.hello.Repository.UserRepository;
 import com.example.hello.Token.TokenProvider;
@@ -26,12 +25,12 @@ public class GoogleLoginService {
     UserRepository userRepository;
 
     @Transactional
-    public LoginResultDto googleLogin(String tokenId) {
+    public LoginDto googleLogin(String tokenId) {
 
         GoogleUserDto googleUserDto = getGoogleUser(tokenId);
-        LoginResultDto loginResultDto = handleGoogleUserDto(googleUserDto);
+        LoginDto loginDto = handleGoogleUserDto(googleUserDto);
 
-        return loginResultDto;
+        return loginDto;
     }
 
     public GoogleUserDto getGoogleUser(String tokenId) {
@@ -48,7 +47,7 @@ public class GoogleLoginService {
 
     }
 
-    private LoginResultDto handleGoogleUserDto(GoogleUserDto googleUserDto){
+    private LoginDto handleGoogleUserDto(GoogleUserDto googleUserDto){
 
         String email = googleUserDto.getEmail();
 
@@ -56,7 +55,7 @@ public class GoogleLoginService {
         if(userRepository.existsByUserEmail(email)){
 
             UserEntity userEntity = userRepository.findByUserEmail(email);
-            return LoginResultDto.from(userEntity, tokenProvider);
+            return LoginDto.from(userEntity, tokenProvider);
 
         //없으면 회원가입 처리
         } else {
@@ -64,7 +63,7 @@ public class GoogleLoginService {
             UserEntity userEntity =  UserEntity.snsFrom(email, passwordEncoder);
             userRepository.save(userEntity);
 
-            return LoginResultDto.from(userEntity, tokenProvider);
+            return LoginDto.from(userEntity, tokenProvider);
         }
     }
 }

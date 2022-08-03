@@ -1,8 +1,6 @@
 package com.example.hello.Service;
 
-import com.example.hello.Dto.In.Order.OrderInDto;
 import com.example.hello.Entity.OrderEntity;
-import com.example.hello.Entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,9 +15,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 @RequiredArgsConstructor

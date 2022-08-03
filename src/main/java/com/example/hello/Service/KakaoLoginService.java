@@ -1,12 +1,10 @@
 package com.example.hello.Service;
 
-import com.example.hello.Dto.In.User.KakaoUserDto;
-import com.example.hello.Dto.Out.User.LoginResultDto;
-import com.example.hello.Dto.Out.User.SnsLoginResultDto;
+import com.example.hello.Dto.Request.User.KakaoUserDto;
+import com.example.hello.Dto.Response.User.LoginDto;
 import com.example.hello.Entity.UserEntity;
 import com.example.hello.Repository.UserRepository;
 import com.example.hello.Token.TokenProvider;
-import com.example.hello.Types.UserType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +39,7 @@ public class KakaoLoginService {
     TokenProvider tokenProvider;
 
     @Transactional
-    public LoginResultDto kakaoLogin(String code) throws JsonProcessingException {
+    public LoginDto kakaoLogin(String code) throws JsonProcessingException {
        // String accessToken = getAccessToken(code);
         KakaoUserDto kakaoUserDto = getKakaoUserInfo(code);
         return hanldeKakaoUserInfo(kakaoUserDto);
@@ -97,14 +95,14 @@ public class KakaoLoginService {
         return kakaoUserDto;
     }
 
-    private LoginResultDto hanldeKakaoUserInfo(KakaoUserDto kakaoUserDto) {
+    private LoginDto hanldeKakaoUserInfo(KakaoUserDto kakaoUserDto) {
 
         //코드를 이용해 현재 유저 목록에 있는지 확인
         //있으면 그대로 로그인 결과 내려준다.
         if (userRepository.existsByUserEmail(kakaoUserDto.getKakao_account().getEmail())) {
 
             UserEntity userEntity = userRepository.findByUserEmail(kakaoUserDto.getKakao_account().getEmail());
-            return LoginResultDto.from(userEntity, tokenProvider);
+            return LoginDto.from(userEntity, tokenProvider);
         }
         //없으면 회원가입 처리한다.
         else {
@@ -112,7 +110,7 @@ public class KakaoLoginService {
             UserEntity userEntity = UserEntity.snsFrom(kakaoUserDto.getKakao_account().getEmail(), passwordEncoder);
             userRepository.save(userEntity);
 
-            return LoginResultDto.from(userEntity, tokenProvider);
+            return LoginDto.from(userEntity, tokenProvider);
         }
     }
 }

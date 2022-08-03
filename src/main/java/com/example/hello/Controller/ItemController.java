@@ -3,10 +3,9 @@ package com.example.hello.Controller;
 import com.example.hello.Annotation.Auth;
 import com.example.hello.Annotation.User;
 import com.example.hello.Annotation.UserDetails;
-import com.example.hello.Dto.In.Item.*;
-import com.example.hello.Dto.Out.Item.ItemListOutDto;
-import com.example.hello.Dto.Out.Item.ItemOutDto;
-import com.example.hello.Dto.Out.Item.ItemReviewOutDto;
+import com.example.hello.Dto.Request.Item.*;
+import com.example.hello.Dto.Response.Item.ItemListDto;
+import com.example.hello.Dto.Response.Item.ItemDto;
 import com.example.hello.Service.ItemService;
 import com.example.hello.Types.UserRole;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,9 +51,9 @@ public class ItemController {
 
     @Operation(summary = "상품 목록.", description = "모든 상품 목록을 보여준다.")
     @GetMapping("/list")
-    public Page<ItemListOutDto> itemList(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+    public Page<ItemListDto> itemList(@PageableDefault(page = 0, size = 20) Pageable pageable) {
 
-        Page<ItemListOutDto> list = null;
+        Page<ItemListDto> list = null;
 
         list = itemService.readAllByPage(pageable);
 
@@ -63,10 +62,10 @@ public class ItemController {
 
     @Operation(summary = "성별 아이템 목록.", description = "각 성별에 해당하는 상품을 리스트로 나타낸다.")
     @GetMapping("/list/gender")
-    public Page<ItemListOutDto> itemGender(@RequestParam(value = "gender") String gender,
-                                           @PageableDefault(page = 0, size = 20) Pageable pageable) {
+    public Page<ItemListDto> itemGender(@RequestParam(value = "gender") String gender,
+                                        @PageableDefault(page = 0, size = 20) Pageable pageable) {
 
-        Page<ItemListOutDto> list = null;
+        Page<ItemListDto> list = null;
 
         list = itemService.findAllByGender(gender, pageable);
 
@@ -75,11 +74,11 @@ public class ItemController {
 
     @Operation(summary = "성별 아이템 + 카테고리", description = "각 성별에 해당하는 상품 + 해당 카테고리를 리스트로 나타낸다.")
     @GetMapping("/list/cate")
-    public Page<ItemListOutDto> itemCategoryAndGender(@RequestParam(value = "category") String category,
-                                                      @RequestParam(value = "gender") String gender,
-                                                      @PageableDefault(page = 0, size = 20) Pageable pageable) {
+    public Page<ItemListDto> itemCategoryAndGender(@RequestParam(value = "category") String category,
+                                                   @RequestParam(value = "gender") String gender,
+                                                   @PageableDefault(page = 0, size = 20) Pageable pageable) {
 
-        Page<ItemListOutDto> list = null;
+        Page<ItemListDto> list = null;
 
         list = itemService.findByItemCategoryAndGender1(category, gender, pageable);
 
@@ -88,10 +87,10 @@ public class ItemController {
 
     @Operation(summary = "상품 검색.", description = "검색한 상품 목록을 보여준다.")
     @GetMapping("/list/search")
-    public Page<ItemListOutDto> itemSearch(@RequestParam(value = "keyword") String keyword,
-                                           @PageableDefault(page = 0, size = 20) Pageable pageable) {
+    public Page<ItemListDto> itemSearch(@RequestParam(value = "keyword") String keyword,
+                                        @PageableDefault(page = 0, size = 20) Pageable pageable) {
 
-        Page<ItemListOutDto> list = null;
+        Page<ItemListDto> list = null;
 
         list = itemService.findItemWithSearch(keyword, pageable);
 
@@ -101,10 +100,10 @@ public class ItemController {
     // 상품 상세 정보
     @Operation(summary = "상품 상세정보", description = " itemId를 기준으로 상품의 상세정보를 받아온다.")
     @GetMapping("/{id}")
-    public ItemOutDto itemDetail(@PathVariable("id") int id) {
+    public ItemDto itemDetail(@PathVariable("id") int id) {
 
-        ItemOutDto itemOutDto = itemService.itemDetail(id);
-        return itemOutDto;
+        ItemDto itemDto = itemService.itemDetail(id);
+        return itemDto;
     }
 
     @Operation(summary = "상품 수정", description = "상품을 수정 한다. 관리자 권한 필요")
@@ -127,9 +126,9 @@ public class ItemController {
     public ResponseEntity<Object> createReview(
             @Parameter(hidden = true)
             @User UserDetails userDetails,
-            @RequestBody ItemReviewInDto itemReviewInDto) {
+            @RequestBody ItemReviewDto itemReviewDto) {
 
-        itemService.createReview(userDetails.getUserId(), itemReviewInDto);
+        itemService.createReview(userDetails.getUserId(), itemReviewDto);
 
         return new ResponseEntity<>(
                 "",
@@ -153,8 +152,8 @@ public class ItemController {
     @Operation(summary = "상품의 옵션 추가", description = "상품의 옵션을 추가, 관리자 권한 필요")
     //@Auth(userRole = UserRole.ADMIN)
     @PostMapping("{id}/option")
-    public void addItemOption(@PathVariable int id, ItemOptionInDto itemOptionInDto) {
-        itemService.addItemOption(id, itemOptionInDto);
+    public void addItemOption(@PathVariable int id, ItemOptionDto itemOptionDto) {
+        itemService.addItemOption(id, itemOptionDto);
     }
 
     @Operation(summary = "상품의 옵션 수정", description = "상품의 옵션을 수정, 관리자 권한 필요")
@@ -162,8 +161,8 @@ public class ItemController {
     @PutMapping("{id}/option/{optionid}")
     public void updateItemOption(@PathVariable("id") int id,
                                  @PathVariable("optionid") int optionId,
-                                 ItemOptionInDto itemOptionInDto) {
-        itemService.updateItemOption(optionId, itemOptionInDto);
+                                 ItemOptionDto itemOptionDto) {
+        itemService.updateItemOption(optionId, itemOptionDto);
     }
 
     @Operation(summary = "상품의 옵션 삭제", description = "상품의 옵션을 삭제, 관리자 권한 필요")

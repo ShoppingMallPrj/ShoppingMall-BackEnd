@@ -1,26 +1,16 @@
 package com.example.hello.RepoTest;
 
 
-import com.example.hello.Dto.Out.Item.ItemListOutDto;
-import com.example.hello.Entity.InquiryEntity;
-import com.example.hello.Entity.ItemEntity;
-import com.example.hello.Entity.UserEntity;
 import com.example.hello.Repository.ItemRepository;
-import com.example.hello.Repository.UserRepository;
 import com.example.hello.Service.ItemService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @SpringBootTest
 @Transactional

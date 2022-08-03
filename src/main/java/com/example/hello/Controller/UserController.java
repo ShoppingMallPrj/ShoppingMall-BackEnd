@@ -3,9 +3,9 @@ package com.example.hello.Controller;
 import com.example.hello.Annotation.Auth;
 import com.example.hello.Annotation.User;
 import com.example.hello.Annotation.UserDetails;
-import com.example.hello.Dto.In.User.SignUpDto;
-import com.example.hello.Dto.Out.User.UserOutDto;
-import com.example.hello.Dto.In.User.UserUpdateDto;
+import com.example.hello.Dto.Request.User.SignUpDto;
+import com.example.hello.Dto.Response.User.UserDto;
+import com.example.hello.Dto.Request.User.UserUpdateDto;
 import com.example.hello.Service.MailService;
 import com.example.hello.Service.SignUpCodeService;
 import com.example.hello.Service.UserService;
@@ -64,7 +64,7 @@ public class UserController {
     @Operation(summary = "유저 정보 가져오기", description = "id 기준으로 유저 정보를 가져온다.")
     @Auth(userRole = UserRole.USER)
     @GetMapping("")
-    public UserOutDto readUser(
+    public UserDto readUser(
             @User UserDetails userDetails
     ){
         System.out.println(userDetails.getUserId());

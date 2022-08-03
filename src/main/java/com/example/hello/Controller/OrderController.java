@@ -3,8 +3,7 @@ package com.example.hello.Controller;
 import com.example.hello.Annotation.Auth;
 import com.example.hello.Annotation.User;
 import com.example.hello.Annotation.UserDetails;
-import com.example.hello.Dto.In.Order.OrderInDto;
-import com.example.hello.Dto.Out.Order.OrderOutDto;
+import com.example.hello.Dto.Response.Order.OrderDto;
 import com.example.hello.Exception.ErrorCode;
 import com.example.hello.Exception.NoAuthException;
 import com.example.hello.Service.OrderService;
@@ -38,17 +37,17 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<Object> createOrder(
             @User UserDetails userDetails,
-            @Valid @RequestBody OrderInDto orderInDto
+            @Valid @RequestBody com.example.hello.Dto.Request.Order.OrderDto orderDto
     ) throws MessagingException {
-        System.out.println(orderInDto.toString());
-        orderService.createOrder(userDetails.getUserId(), orderInDto);
+        System.out.println(orderDto.toString());
+        orderService.createOrder(userDetails.getUserId(), orderDto);
         return new ResponseEntity<>("", HttpStatus.CREATED);
     }
 
     @Operation(summary = "주문내역 전체보기", description = "주문 내역을 전부 가져온다. 관리자 권한 필요")
     @Auth(userRole = UserRole.ADMIN)
     @GetMapping("/list")
-    public Page<OrderOutDto> readAll(
+    public Page<OrderDto> readAll(
             @Parameter(description = "주문의 상태, 조건이 없으면 무시됨 ex:) /?status=준비중", in = ParameterIn.QUERY)
             @RequestParam(name = "status", required = false) OrderStatus orderStatus,
             @PageableDefault(page = 0, size = 10) Pageable pageable
@@ -59,7 +58,7 @@ public class OrderController {
     @Operation(summary = "유저가 가진 주문내역", description = "id 기준으로 유저가 가진 주문내역을 전부 가져온다.")
     @Auth(userRole = UserRole.USER)
     @GetMapping("/user")
-    public Page<OrderOutDto> readUserOrder(
+    public Page<OrderDto> readUserOrder(
             @Parameter(hidden = true)
             @User UserDetails userDetails,
             @PageableDefault(page = 0, size = 5) Pageable pageable
@@ -71,14 +70,14 @@ public class OrderController {
     @Operation(summary = "주문 상세정보", description = "주문 하나의 상세정보를 가져온다.")
     @Auth(userRole = UserRole.USER)
     @GetMapping("/{orderId}")
-    public OrderOutDto readOrder(
+    public OrderDto readOrder(
             @User UserDetails userDetails,
             @PathVariable int orderId
     ) {
         checkIsOwner(userDetails, orderId);
 
-        OrderOutDto orderOutDto = orderService.read(orderId);
-        return orderOutDto;
+        OrderDto orderDto = orderService.read(orderId);
+        return orderDto;
     }
 
     @Operation(summary = "주문 환불, 취소요청", description = "주문의 환불, 취소 요청을 한다. 소유자 권한 필요.")
