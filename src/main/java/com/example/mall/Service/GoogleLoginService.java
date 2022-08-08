@@ -60,7 +60,7 @@ public class GoogleLoginService {
         //없으면 회원가입 처리
         } else {
 
-            UserEntity userEntity =  UserEntity.snsFrom(email, passwordEncoder);
+            UserEntity userEntity =  UserEntity.snsFrom(email, googleUserDto.getName(), passwordEncoder);
             userRepository.save(userEntity);
 
             return LoginDto.from(userEntity, tokenProvider);

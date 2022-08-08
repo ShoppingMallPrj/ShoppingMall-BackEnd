@@ -13,6 +13,8 @@ public class KakaoUserDto {
 
     private Kakao_account kakao_account;
 
+
+
     @Data
     public class Properties {
         String nickname;
@@ -22,6 +24,11 @@ public class KakaoUserDto {
     public class Kakao_account {
         boolean hasEmail;
         String email;
+    }
+
+    @Data
+    public class Profile {
+        String nickname;
     }
 
 }

@@ -107,7 +107,7 @@ public class KakaoLoginService {
         //없으면 회원가입 처리한다.
         else {
 
-            UserEntity userEntity = UserEntity.snsFrom(kakaoUserDto.getKakao_account().getEmail(), passwordEncoder);
+            UserEntity userEntity = UserEntity.snsFrom(kakaoUserDto.getKakao_account().getEmail(), kakaoUserDto.getProperties().getNickname() , passwordEncoder);
             userRepository.save(userEntity);
 
             return LoginDto.from(userEntity, tokenProvider);

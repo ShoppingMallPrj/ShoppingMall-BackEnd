@@ -28,6 +28,9 @@ public class UserEntity {
     @Column(name = "user_email")
     private String userEmail;
 
+    @Column(name = "user_name")
+    private String userName;
+
     @Column(name = "user_pw")
     private String userPw;
 
@@ -67,6 +70,7 @@ public class UserEntity {
         UserEntity userEntity = new UserEntity();
 
         userEntity.setUserEmail(signUpDto.getUserEmail());
+        userEntity.setUserName(signUpDto.getUserName());
         userEntity.setUserPw(passwordEncoder.encode(signUpDto.getUserPw()));
         userEntity.setUserPhone(signUpDto.getUserPhone());
         userEntity.setUser_addr1(signUpDto.getUser_addr1());
@@ -78,7 +82,7 @@ public class UserEntity {
     }
 
     //SNS로 회원가입
-    public static UserEntity snsFrom(String userEmail, PasswordEncoder passwordEncoder){
+    public static UserEntity snsFrom(String userEmail, String userName, PasswordEncoder passwordEncoder){
 
         UserEntity userEntity = new UserEntity();
 
@@ -89,6 +93,7 @@ public class UserEntity {
 
         userEntity.setUserPw(passwordEncoder.encode(generatedString));
         userEntity.setUserEmail(userEmail);
+        userEntity.setUserName(userName);
         userEntity.setUserRole(UserRole.USER);
 
         return userEntity;
