@@ -38,7 +38,6 @@ public class InquiryController {
             @SortDefault(sort = "inquiryId", direction = Sort.Direction.DESC)
             Pageable pageable){
 
-
         return inquiryService.readAll(pageable);
     }
 

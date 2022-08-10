@@ -93,7 +93,7 @@ public class OrderController {
     @Operation(summary = "주문 배송중, 배송완료 상태변경", description = "주문의 상태를 변경시킨다. 관리자 권한 필요.")
     @Auth(userRole = UserRole.ADMIN)
     @PutMapping("/{orderId}/status")
-    public void chageOrder(
+    public void changeOrder(
             @PathVariable int orderId,
             @Parameter(description = "변경할 상태", in = ParameterIn.QUERY)
             @RequestParam OrderStatus orderStatus

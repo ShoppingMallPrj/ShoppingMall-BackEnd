@@ -114,7 +114,7 @@ public class ItemController {
     }
 
     @Operation(summary = "상품 삭제", description = "상품을 삭제 한다. 관리자 권한 필요")
-    @Auth(userRole = UserRole.ADMIN)
+    //@Auth(userRole = UserRole.ADMIN)
     @DeleteMapping("/{id}")
     public void itemDelete(@PathVariable("id") Integer id) {
         itemService.itemDelete(id);

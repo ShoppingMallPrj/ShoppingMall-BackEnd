@@ -20,8 +20,10 @@ public class UserRepoTest {
     UserRepository userRepository;
 
     String userEmail = "user1@exmple.com";
+
     String userPw = "example@1234";
     String userPhone = "010-9152-2550";
+
     String userName = "sasa5680";
     String userAddr1 = "addr1";
     String userAddr2 = "addr2";
@@ -42,7 +44,7 @@ public class UserRepoTest {
         userEntity.setUser_addr1(userAddr1);
         userEntity.setUser_addr2(userAddr2);
         userEntity.setUser_addr3(userAddr3);
-
+        userEntity.setUserName(userName);
         userRepository.save(userEntity);
 
     }

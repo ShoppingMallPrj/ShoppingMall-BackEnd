@@ -34,6 +34,8 @@ public class OrderListDto {
     @Schema(description = "상품 대표 이미지 src")
     private String itemImage;
 
+    private int itemPrice;
+
     public static OrderListDto from(OrderListEntity orderListEntity){
         OrderListDto orderListDto = new OrderListDto();
 
@@ -44,6 +46,7 @@ public class OrderListDto {
         orderListDto.setItemId(orderListEntity.getItemEntity().getItemId());
         orderListDto.setOptionId(orderListEntity.getItemOptionEntity().getOptionId());
         orderListDto.setItemImage(orderListEntity.getItemEntity().getItemProfile());
+        orderListDto.setItemPrice(orderListEntity.getItemEntity().getItemPrice());
         return orderListDto;
     }
 
