@@ -3,6 +3,7 @@ package com.example.mall.Entity;
 import com.example.mall.Dto.Request.User.SignUpDto;
 import com.example.mall.Types.UserRole;
 import lombok.Data;
+import org.springframework.boot.system.JavaVersion;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,7 +81,6 @@ public class UserEntity {
 
         return userEntity;
     }
-
     //SNS로 회원가입
     public static UserEntity snsFrom(String userEmail, String userName, PasswordEncoder passwordEncoder){
 
