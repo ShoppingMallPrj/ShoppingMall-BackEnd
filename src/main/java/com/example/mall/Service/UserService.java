@@ -48,7 +48,7 @@ public class UserService {
             throw new NoAuthException(ErrorCode.LOGIN_FAIL_ERROR);
         }
 
-        if (passwordEncoder.matches(loginDto.getPassword(), userEntity.getUserPw())){
+        if (!passwordEncoder.matches(passwordEncoder.encode(loginDto.getPassword()), userEntity.getUserPw())){
             throw new NoAuthException(ErrorCode.LOGIN_FAIL_ERROR);
         }
 
