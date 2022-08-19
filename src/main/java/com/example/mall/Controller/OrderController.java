@@ -71,10 +71,10 @@ public class OrderController {
 //    @Auth(userRole = UserRole.USER)
     @GetMapping("/{orderId}")
     public OrderDto readOrder(
-            @User UserDetails userDetails,
+//            @User UserDetails userDetails,
             @PathVariable int orderId
     ) {
-        checkIsOwner(userDetails, orderId);
+//        checkIsOwner(userDetails, orderId);
 
         OrderDto orderDto = orderService.read(orderId);
         return orderDto;
