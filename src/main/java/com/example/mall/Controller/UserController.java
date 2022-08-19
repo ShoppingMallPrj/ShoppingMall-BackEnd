@@ -76,7 +76,7 @@ public class UserController {
     @PutMapping("")
     public void updateUser(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "유저정보 수정 시 받아오는 dto", required = true)
-            @Valid UserUpdateDto userUpdateDto,
+            UserUpdateDto userUpdateDto,
             @Parameter(hidden = true)
             @User UserDetails userDetails
     ){
