@@ -13,11 +13,11 @@
     </style>
 </head>
 <body>
-    <h1>주문내역</h1>
+    <h1 th:text="${orderName}">님의 주문내역</h1>
     <h1>Memo </h1><h1 th:text="${memo}"></h1>
     <h1>orderDate </h1><h1 th:text="${date}"></h1>
     <h1>total </h1><h1 th:text="${total}"></h1>
-    <h1>total </h1><h1 th:text="${item_profile}"></h1>
+    <h1>image </h1><img src="${orders['order_id'].getItemEntity().getItemProfile()}">
 
     <h2>some content...</h2>
     <div>css test...</div>

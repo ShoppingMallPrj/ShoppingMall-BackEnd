@@ -88,6 +88,8 @@ public class MailService {
         context.setVariable("total", orderEntity.getTotal());
         context.setVariable("date", orderEntity.getOrderDate());
         context.setVariable("memo", orderEntity.getMemo());
+        context.setVariable("orderName", orderEntity.getOrderName());
+        context.setVariable("orders", orderEntity.getOrders());
 
         String subject = "메일 제목";
         String body = templateEngine.process("OrderEmail", context);
