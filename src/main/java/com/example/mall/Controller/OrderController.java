@@ -31,9 +31,8 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
-
     @Operation(summary = "주문 생성", description = "주문을 하나 생성한다.. 관리자 권한 필요")
-//    @Auth(userRole = UserRole.USER)
+    @Auth(userRole = UserRole.USER)
     @PostMapping("/create")
     public ResponseEntity<Object> createOrder(
             @User UserDetails userDetails,
@@ -56,7 +55,7 @@ public class OrderController {
     }
 
     @Operation(summary = "유저가 가진 주문내역", description = "id 기준으로 유저가 가진 주문내역을 전부 가져온다.")
-//    @Auth(userRole = UserRole.USER)
+    @Auth(userRole = UserRole.USER)
     @GetMapping("/user")
     public Page<OrderDto> readUserOrder(
             @Parameter(hidden = true)
@@ -68,7 +67,7 @@ public class OrderController {
     }
 
     @Operation(summary = "주문 상세정보", description = "주문 하나의 상세정보를 가져온다.")
-//    @Auth(userRole = UserRole.USER)
+    @Auth(userRole = UserRole.USER)
     @GetMapping("/{orderId}")
     public OrderDto readOrder(
 //            @User UserDetails userDetails,
@@ -81,7 +80,7 @@ public class OrderController {
     }
 
     @Operation(summary = "주문 환불, 취소요청", description = "주문의 환불, 취소 요청을 한다. 소유자 권한 필요.")
-//    @Auth(userRole = UserRole.USER)
+    @Auth(userRole = UserRole.USER)
     @PutMapping("/{orderId}/cancel")
     public void cancelOrder(
             @User UserDetails userDetails,
@@ -91,7 +90,7 @@ public class OrderController {
     }
 
     @Operation(summary = "주문 배송중, 배송완료 상태변경", description = "주문의 상태를 변경시킨다. 관리자 권한 필요.")
-//    @Auth(userRole = UserRole.ADMIN)
+    @Auth(userRole = UserRole.ADMIN)
     @PutMapping("/{orderId}/status")
     public void changeOrder(
             @PathVariable int orderId,

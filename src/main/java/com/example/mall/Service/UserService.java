@@ -48,7 +48,7 @@ public class UserService {
             throw new NoAuthException(ErrorCode.LOGIN_FAIL_ERROR);
         }
 
-        if (passwordEncoder.matches(passwordEncoder.encode(loginDto.getPassword()), userEntity.getUserPw())){
+        if (!passwordEncoder.matches(loginDto.getPassword(), userEntity.getUserPw())){
             throw new NoAuthException(ErrorCode.LOGIN_FAIL_ERROR);
         }
 
@@ -88,7 +88,7 @@ public class UserService {
     //유저를 수정한다. 비밀번호, 주소, 휴대전화 번호만 수정이 가능하다.
     @Transactional
     public void updateUser(int userId, UserUpdateDto userUpdateDto) {
-
+        
         UserEntity userEntity = userRepository.findByUserId(userId);
 
         userEntity.setUserPhone(userUpdateDto.getUserPhone());
