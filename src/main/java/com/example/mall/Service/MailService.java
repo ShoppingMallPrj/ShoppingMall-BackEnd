@@ -90,6 +90,7 @@ public class MailService {
         context.setVariable("memo", orderEntity.getMemo());
         context.setVariable("orderName", orderEntity.getOrderName());
         context.setVariable("orders", orderEntity.getOrders());
+        context.setVariable("orderId", orderEntity.getOrderId());
 
         String subject = "메일 제목";
         String body = templateEngine.process("OrderEmail", context);
