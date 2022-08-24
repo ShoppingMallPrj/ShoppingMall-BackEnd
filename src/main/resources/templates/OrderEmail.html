@@ -23,9 +23,10 @@
     <div>감사합니다.</div>
     <div>관련하여 문의사항은 홈페이지의 Q&A로 주문번호와 함께 문의하여 주시기 바랍니다.</div>
     <hr>
-<!--    <h2 th:text="|ORDER NO. ${orders['orderId'].getOrderId()}|"></h2>-->
+    <h2 th:text="|ORDER NO. ${orderId}|"></h2>
+    <h5 th:text="${#temporals.format(date,'yyyy-MM-dd HH:mm')}"></h5>
     <h2 th:text="|${orderName}님의 주문내역|"></h2>
-    <h2>주문시간 </h2><h1 th:text="${#temporals.format(date,'yyyy-MM-dd HH:mm')}"></h1>
+
     <h2>총 금액 </h2><h1 th:text="${total}"></h1>
     <h1 th:text="${memo}"></h1>
 <!--    <h1 th:text="주문시간  ${date}>orderDate"></h1>-->
