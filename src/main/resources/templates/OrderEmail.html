@@ -13,10 +13,13 @@
     </style>
 </head>
 <body>
-    <h1 th:text="${orderName}님의 주문내역"></h1>
+    <h1 th:text="${orderName}">님의 주문내역</h1>
+<!--    <h1 th:text="${orderName}님의 주문내역"></h1>-->
+    <h1>orderDate </h1><h1 th:text="${date}"></h1>
+    <h1>total </h1><h1 th:text="${total}"></h1>
     <h1>Memo </h1><h1 th:text="${memo}"></h1>
-    <h1 th:text="주문시간  ${date}>orderDate"></h1>
-    <h1 th:text="주문하신 상품의 총 금액은 ${total}원 입니다."></h1>
-    <h1>image </h1><img src="${orders['order_id'].getItemEntity().getItemProfile()}">
+<!--    <h1 th:text="주문시간  ${date}>orderDate"></h1>-->
+<!--    <h1 th:text="주문하신 상품의 총 금액은 ${total}원 입니다."></h1>-->
+<!--    <h1>image </h1><img src="${orders['order_id'].getItemEntity().getItemProfile()}">-->
 </body>
 </html>
