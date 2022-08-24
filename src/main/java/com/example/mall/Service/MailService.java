@@ -91,6 +91,10 @@ public class MailService {
         context.setVariable("orderName", orderEntity.getOrderName());
         context.setVariable("orders", orderEntity.getOrders());
         context.setVariable("orderId", orderEntity.getOrderId());
+        context.setVariable("Addr1", orderEntity.getAddr1());
+        context.setVariable("Addr2", orderEntity.getAddr2());
+        context.setVariable("Addr2", orderEntity.getCode());
+        context.setVariable("receiptPhone", orderEntity.getReceiptPhone());
 
         String subject = "메일 제목";
         String body = templateEngine.process("OrderEmail", context);
