@@ -7,38 +7,50 @@
 
     <style>
         h1	{ text-align: center; }
+        h5  { color : #848484; }
         div {
+            width : 710px;
             font-size: 20px;
         }
+        span1 { line-height: 1; }
     </style>
 </head>
 <body>
-    <h1>ORDER CONFIRMATION</h1>
-    <hr>
-    <div th:text="|안녕하세요 ${orderName} 님.|"></div>
-    <div>Our Clothing을 이용해주셔서 감사합니다. 고객님의 주문이 확인 되었습니다.</div>
-    <div style="color:red;">주문 폭주로 인해 배송이 지연될 수 있는 점 참고 부탁드립니다.</div>
-    <div>평소보다 대략 3~5일 정도 소요 예정입니다.(토요일, 공휴일 제외).</div>
-    <div>최대한 빨리 출고할 수 있도록 노력하겠습니다.</div>
-    <div>감사합니다.</div>
-    <div>관련하여 문의사항은 홈페이지의 Q&A로 주문번호와 함께 문의하여 주시기 바랍니다.</div>
-    <hr>
+    <div>
+        <h1>ORDER CONFIRMATION</h1>
+            <hr>
+        <span th:text="|안녕하세요 ${orderName} 님.|"></br></span>
+        <span>Our Clothing을 이용해주셔서 감사합니다. 고객님의 주문이 확인 되었습니다.</br></br></span>
+        <span style="color:red;">주문 폭주로 인해 배송이 지연될 수 있는 점 참고 부탁드립니다.</br></br></span>
+        <span>평소보다 대략 3~5일 정도 소요 예정입니다.(토요일, 공휴일 제외).</br></span>
+        <span>최대한 빨리 출고할 수 있도록 노력하겠습니다.</br></br></span>
+        <span>감사합니다.</br></br></span>
+        <span>관련하여 문의사항은 홈페이지의 Q&A로 주문번호와 함께 문의하여 주시기 바랍니다.</br></span>
+            <hr>
 
-    <h2 th:text="|ORDER NO. ${orderId}|"></h2>
-    <h5 th:text="${#temporals.format(date,'yyyy-MM-dd HH:mm')}"></h5>
+        <h2>ORDER NO. #</h2>
+        <h2 th:text="|ORDER NO. ${orderId}|"></h2>
+        <h5>날짜</h5>
+        <h5 th:text="${#temporals.format(date,'yyyy-MM-dd HH:mm')}"></h5>
 
-    <h3>SHIPPING ADDRESS</h3>
-    <h4 th:text="${orderName}"></h4>
-    <h4 th:text="${Addr1}"></h4>
-    <h4 th:text="${Addr2}"></h4>
-    <h4 th:text="${code}"></h4>
-    <h4 th:text="|TEL. ${receiptPhone}|"></h4>
+        <h3>SHIPPING ADDRESS</h3>
+<!--        <span1>orderName</br></span1>-->
+        <span1 th:text="${orderName}"></br></span1>
+<!--        <span1>Addr1</br></span1>-->
+        <span1 th:text="${Addr1}"></br></span1>
+<!--        <span1>Addr2</br></span1>-->
+        <span1 th:text="${Addr2}"></br></span1>
+<!--        <span1>code</br></span1>-->
+        <span1 th:text="${code}"></br></span1>
+<!--        <span1>TEL. 010-4032-8730</br></span1>-->
+        <span1 th:text="|TEL. ${receiptPhone}|"></br></span1>
 
-    <h2 th:text="|${orderName}님의 주문내역|"></h2>
+        <h3>ITEMS ORDERED</h3>
 
-    <h2>total </h2>
-    <h4 th:text="|${#numbers.formatInteger(total, 3, 'COMMA')}원|"></h4>
-    <h4 th:text="${memo}"></h4>
+        <h2>total </h2>
+        <h4 th:text="|${#numbers.formatInteger(total, 3, 'COMMA')}원|"></h4>
+        <h4 th:text="${memo}"></h4>
+    </div>
 <!--    <h1 th:text="주문시간  ${date}>orderDate"></h1>-->
 <!--    <h1 th:text="주문하신 상품의 총 금액은 ${total}원 입니다."></h1>-->
 <!--    <h1>image </h1><img src="${orders['order_id'].getItemEntity().getItemProfile()}">-->
